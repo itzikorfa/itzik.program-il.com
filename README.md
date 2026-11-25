@@ -70,3 +70,8 @@ npm run test:e2e     # browser tests (desktop, iPhone, Android, 360px)
 
 Build-time env vars (set in Amplify): `GITHUB_TOKEN` (optional, avoids GitHub API rate limits),
 `SITE_INDEXABLE` (`true` only on the live domain; otherwise every page is `noindex`).
+
+## Copyright
+
+© Yizhak (Itzik) Orfanian. All rights reserved. The code and content in this repository may not be
+reused, copied or redistributed without permission.
