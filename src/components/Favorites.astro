@@ -1,0 +1,21 @@
+---
+import { getFavorites } from '../lib/favorites';
+import { isoDate } from '../lib/posts';
+const items = await getFavorites();
+---
+{items.length === 0 ? (
+  <p class="comment">nothing here yet. be the first to suggest one</p>
+) : (
+  <ul class="list favorites">
+    {items.map(({ data }) => (
+      <li>
+        <span class="meta">{isoDate(data.date)}</span>&nbsp;
+        <span class="kind">[{data.kind}]</span>&nbsp;
+        <a href={data.url} target="_blank" rel="noopener noreferrer">{data.title}</a>
+        {data.why && <div class="comment">{data.why}</div>}
+        {data.suggestedBy && <div class="credit">suggested by {data.suggestedBy}</div>}
+      </li>
+    ))}
+  </ul>
+)}
+<p class="suggest"><a href="/favorites/suggest/">$ ./suggest-link</a> <span class="comment">know a great site or repo?</span></p>

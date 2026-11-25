@@ -2,7 +2,7 @@
 interface Props { homeLinks?: boolean }
 const { homeLinks = false } = Astro.props;
 const prefix = homeLinks ? '/' : '';
-const sections = ['projects', 'blog', 'reading', 'contact'];
+const sections = ['projects', 'blog', 'reading', 'favorites', 'contact'];
 ---
 <nav class="commands" aria-label="Sections">
   <span class="hint">tap a command:</span>

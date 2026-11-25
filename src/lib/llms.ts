@@ -2,6 +2,7 @@ import { getCollection } from 'astro:content';
 import { profile } from '../data/profile';
 import { SITE_URL } from '../config/site';
 import { getPublishedPosts, postMarkdownUrl, isoDate } from './posts';
+import { getFavorites } from './favorites';
 import { fetchPortfolioRepos, type Repo } from './github';
 import snapshot from '../data/projects.snapshot.json';
 
@@ -11,6 +12,7 @@ const abs = (p: string) => new URL(p, SITE_URL).href;
 export async function buildLlmsTxt(full = false): Promise<string> {
   const posts = await getPublishedPosts();
   const reading = (await getCollection('reading')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const favorites = await getFavorites();
   const repos = await fetchPortfolioRepos({
     user: 'itzikorfa',
     token: import.meta.env.GITHUB_TOKEN,
@@ -40,9 +42,10 @@ export async function buildLlmsTxt(full = false): Promise<string> {
   out.push('## Links', '');
   out.push(`- [LinkedIn](${profile.links.linkedin})`, `- [GitHub](${profile.links.github})`, `- Email: ${profile.links.email}`, `- [Website](${SITE_URL}/)`, '');
 
-  if (reading.length > 0) {
+  if (reading.length + favorites.length > 0) {
     out.push('## Optional', '');
     for (const { data } of reading) out.push(`- [${data.title}](${data.url}): recommended reading. ${data.note}`);
+    for (const { data } of favorites) out.push(`- [${data.title}](${data.url}): favorite ${data.kind}.${data.why ? ` ${data.why}` : ''}`);
     out.push('');
   }
 

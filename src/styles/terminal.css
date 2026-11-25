@@ -169,5 +169,9 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
   .whoami-info h1 { font-size: 1.15rem; }
   .portrait { font-size: 3.2px; }
 }
-.prose th, .prose td { border: 1px solid #30363d; padding: .35rem .6rem; text-align: left; vertical-align: top; }
+.prose th, .prose td { border: 1px solid var(--border); padding: .35rem .6rem; text-align: left; vertical-align: top; }
 .prose table { border-collapse: collapse; margin: 1rem 0; }
+.favorites .kind { color: var(--path); }
+.favorites .credit { color: var(--muted); font-size: .9em; }
+.favorites li, .favorites .comment { overflow-wrap: anywhere; }
+.suggest { margin-top: .8rem; }

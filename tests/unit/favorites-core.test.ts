@@ -93,13 +93,13 @@ describe('favoriteFile', () => {
   it('builds a dated YAML file the site schema can read, without email', () => {
     const f = favoriteFile({ url: good.url, title: 'Astro: "fast"', why: 'Fast # really', name: 'Dana', kind: 'site' }, 'abc123def456', new Date('2026-11-26T10:00:00Z'));
     expect(f.path).toBe('src/content/favorites/2026-11-26-abc123def456.yaml');
-    expect(parse(f.content)).toEqual({ title: 'Astro: "fast"', url: good.url, date: '2026-11-26', kind: 'site', why: 'Fast # really', suggestedBy: 'Dana' });
+    expect(parse(f.content)).toEqual({ title: 'Astro: "fast"', url: good.url, date: '2026-11-26T10:00:00.000Z', kind: 'site', why: 'Fast # really', suggestedBy: 'Dana' });
     expect(f.content).not.toContain('@');
   });
 
   it('omits empty optional fields', () => {
     const f = favoriteFile({ url: good.url, title: 'Astro', why: '', name: '', kind: 'site' }, 'abc123def456', new Date('2026-11-26T10:00:00Z'));
-    expect(parse(f.content)).toEqual({ title: 'Astro', url: good.url, date: '2026-11-26', kind: 'site' });
+    expect(parse(f.content)).toEqual({ title: 'Astro', url: good.url, date: '2026-11-26T10:00:00.000Z', kind: 'site' });
   });
 });
 

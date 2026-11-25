@@ -29,4 +29,17 @@ const reading = defineCollection({
   }),
 });
 
-export const collections = { blog, reading };
+// One file per favorite (added by visitor-suggestion pull requests), so parallel PRs never conflict.
+const favorites = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/favorites' }),
+  schema: z.object({
+    title: z.string().min(1),
+    url: z.string().refine(isHttpUrl, 'Must be an http(s) URL'),
+    date: z.coerce.date(),
+    kind: z.enum(['site', 'repo']),
+    why: z.string().optional(),
+    suggestedBy: z.string().optional(),
+  }),
+});
+
+export const collections = { blog, reading, favorites };

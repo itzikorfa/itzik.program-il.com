@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { FORBIDDEN } from '../forbidden';
 
-const SECTIONS = ['projects', 'blog', 'reading', 'contact'] as const;
+const SECTIONS = ['projects', 'blog', 'reading', 'favorites', 'contact'] as const;
 const ABOUT_TEXT = 'Mentor to junior developers';
 
 test('shows name and title', async ({ page }) => {
@@ -14,7 +14,10 @@ test('command bar jumps to sections', async ({ page }) => {
   await page.goto('/');
   for (const s of SECTIONS) {
     // Real pointer click: locator.click() scrolls the target itself, which cancels the page's smooth scroll.
-    const box = (await page.locator('nav.commands').getByRole('link', { name: s, exact: true }).boundingBox())!;
+    const link = page.locator('nav.commands').getByRole('link', { name: s, exact: true });
+    // On phones the command row swipes sideways: bring the command into the row's view first, like a swipe.
+    await link.evaluate((el) => { const nav = el.parentElement!; nav.scrollLeft = el.offsetLeft - nav.offsetLeft - 8; });
+    const box = (await link.boundingBox())!;
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
     await expect(page.locator(`#${s}`)).toBeInViewport();
   }

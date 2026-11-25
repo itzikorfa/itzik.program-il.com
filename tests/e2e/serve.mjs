@@ -2,14 +2,18 @@
 import { execSync } from 'node:child_process';
 import http from 'node:http';
 import path from 'node:path';
-import { copyFileSync, existsSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 
 const swaps = [
   // [fixture, target] — target is restored after the build.
   ['tests/fixtures/blog/draft-post.md', 'src/content/blog/draft-post.md'],
   ['tests/fixtures/blog/long-lines.md', 'src/content/blog/long-lines.md'],
   ['tests/fixtures/reading.yaml', 'src/content/reading.yaml'],
+  ...(existsSync('tests/fixtures/favorites')
+    ? readdirSync('tests/fixtures/favorites').map((f) => [`tests/fixtures/favorites/${f}`, `src/content/favorites/${f}`])
+    : []),
 ].filter(([fixture]) => existsSync(fixture));
+mkdirSync('src/content/favorites', { recursive: true });
 
 const backups = swaps.map(([, target]) => [target, existsSync(target) ? readFileSync(target) : null]);
 try {

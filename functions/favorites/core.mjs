@@ -89,7 +89,7 @@ export function verifyToken(token, secret, now = Math.floor(Date.now() / 1000)) 
 /** The file a pull request adds. JSON strings are valid YAML scalars, so quoting is always safe. */
 export function favoriteFile(s, id, date = new Date()) {
   const day = date.toISOString().slice(0, 10);
-  const lines = [`title: ${JSON.stringify(s.title)}`, `url: ${JSON.stringify(s.url)}`, `date: ${day}`, `kind: ${s.kind}`];
+  const lines = [`title: ${JSON.stringify(s.title)}`, `url: ${JSON.stringify(s.url)}`, `date: ${JSON.stringify(date.toISOString())}`, `kind: ${s.kind}`];
   if (s.why) lines.push(`why: ${JSON.stringify(s.why)}`);
   if (s.name) lines.push(`suggestedBy: ${JSON.stringify(s.name)}`);
   return { path: `src/content/favorites/${day}-${id}.yaml`, content: lines.join('\n') + '\n' };
