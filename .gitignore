@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+*.doc
+*.docx
+.superpowers/
+.impeccable/
+.env*
+.rebuild-url
+.private-patterns
+test-results/
+playwright-report/
