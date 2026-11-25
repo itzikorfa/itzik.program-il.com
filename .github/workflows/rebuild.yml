@@ -14,4 +14,5 @@ jobs:
       - name: Trigger Amplify build
         env:
           AMPLIFY_WEBHOOK_URL: ${{ secrets.AMPLIFY_WEBHOOK_URL }}
-        run: curl -fsS -X POST -H 'Content-Type: application/json' -d '{}' "$AMPLIFY_WEBHOOK_URL"
+        run: |
+          curl -fsS -X POST -H 'Content-Type: application/json' -d '{}' "$AMPLIFY_WEBHOOK_URL"
