@@ -7,6 +7,7 @@ import { copyFileSync, existsSync, readFileSync, rmSync, statSync, writeFileSync
 const swaps = [
   // [fixture, target] — target is restored after the build.
   ['tests/fixtures/blog/draft-post.md', 'src/content/blog/draft-post.md'],
+  ['tests/fixtures/blog/long-lines.md', 'src/content/blog/long-lines.md'],
   ['tests/fixtures/reading.yaml', 'src/content/reading.yaml'],
 ].filter(([fixture]) => existsSync(fixture));
 

@@ -1,6 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { parse } from 'yaml';
+import { isHttpUrl } from './lib/url';
 
 const blog = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/blog' }),
@@ -22,7 +23,7 @@ const reading = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
-    url: z.string().url(),
+    url: z.string().refine(isHttpUrl, 'Must be an http(s) URL'),
     date: z.coerce.date(),
     note: z.string(),
   }),

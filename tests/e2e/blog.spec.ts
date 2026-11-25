@@ -37,3 +37,14 @@ test('draft is not published', async ({ page, request }) => {
   await page.goto('/');
   await expect(page.locator('body')).not.toContainText('Unfinished thoughts');
 });
+
+test('long words wrap inside posts on a phone', async ({ page }, info) => {
+  test.skip(info.project.name !== 'small');
+  await page.goto('/blog/long-lines/');
+  const overflowing = await page.evaluate(() =>
+    [...document.querySelectorAll('.post h1, .prose p, .prose li, .prose a')]
+      .filter((el) => el.scrollWidth > el.clientWidth + 1 || el.getBoundingClientRect().right > window.innerWidth)
+      .map((el) => el.tagName),
+  );
+  expect(overflowing).toEqual([]);
+});

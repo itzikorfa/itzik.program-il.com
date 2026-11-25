@@ -2,6 +2,7 @@
 import '../styles/terminal.css';
 import { SITE_URL, SITE_NAME, SITE_INDEXABLE } from '../config/site';
 import CommandBar from '../components/CommandBar.astro';
+import { jsonLdString } from '../lib/jsonld';
 
 interface Props {
   title: string;
@@ -35,7 +36,7 @@ const robots = noindex || !SITE_INDEXABLE;
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
     <slot name="head" />
-    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {jsonLd && <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />}
   </head>
   <body>
     <div class="window">

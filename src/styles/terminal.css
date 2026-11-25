@@ -126,9 +126,10 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
 
 /* Long-form article layout */
 .post { max-width: 70ch; }
-.post h1 { font-size: 1.6rem; margin: .4rem 0; }
+.post h1 { font-size: 1.6rem; margin: .4rem 0; overflow-wrap: anywhere; }
 .post .meta { color: var(--muted); font-size: 13px; }
-.prose { font-size: 16px; line-height: 1.75; margin-top: 1.2rem; }
+.prose { font-size: 16px; line-height: 1.75; margin-top: 1.2rem; overflow-wrap: anywhere; }
+.prose table { display: block; overflow-x: auto; }
 .prose h2, .prose h3 { color: var(--heading); margin: 1.6rem 0 .5rem; }
 .prose p, .prose ul, .prose ol { margin: 0 0 1rem; }
 .prose code { background: var(--surface); padding: .1em .35em; border-radius: 4px; }
