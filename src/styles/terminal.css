@@ -141,11 +141,12 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
 .reading a, .reading .comment { overflow-wrap: anywhere; }
 
 /* whoami: ASCII portrait beside the intro, like neofetch */
-.whoami { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+.whoami { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
 .portrait {
   margin: 0;
   color: var(--prompt);
-  font: 9px/1.15 var(--mono);
+  font: 6px/1.15 var(--mono);
+  min-height: calc(var(--rows, 50) * 1.15em); /* reserve space so the decode animation doesn't shift the page */
   letter-spacing: 0;
   font-variant-ligatures: none;
   font-feature-settings: 'liga' 0, 'calt' 0;
@@ -156,5 +157,5 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
   .whoami { grid-template-columns: 1fr; gap: 12px; }
   /* Name first on small screens; portrait below at ~60% of the width (a mono cell is ~0.6em wide). */
   .whoami-info { order: -1; }
-  .portrait { font-size: min(9px, calc((100vw - 32px) / 56)); justify-self: center; }
+  .portrait { font-size: min(6px, calc((100vw - 32px) / 56)); justify-self: center; }
 }

@@ -1,12 +1,17 @@
 ---
 import { profile } from '../data/profile';
 import portrait from '../data/portrait.txt?raw';
+const rows = portrait.trimEnd().split('\n').length;
 ---
 <div class="whoami">
-  <pre class="portrait" role="img" aria-label={`ASCII portrait of ${profile.name}: bald, glasses, full beard`}>{portrait}</pre>
+  <pre class="portrait" role="img" aria-label={`ASCII portrait of ${profile.name}: bald, glasses, full beard`} data-final-length={String(portrait.length)} style={`--rows: ${rows}`}>{portrait}</pre>
   <div class="whoami-info">
     <h1>{profile.name}</h1>
     <p>{profile.title} · {profile.tagline}</p>
-    {profile.about.map((line) => <p class="comment">{line}</p>)}
+    <p class="comment">more: <a href="/about/">cat about.md</a></p>
+    <slot />
   </div>
 </div>
+<script>
+  import '../scripts/portrait.ts';
+</script>

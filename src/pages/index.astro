@@ -2,7 +2,6 @@
 import Terminal from '../layouts/Terminal.astro';
 import Section from '../components/Section.astro';
 import Whoami from '../components/Whoami.astro';
-import Experience from '../components/Experience.astro';
 import Contact from '../components/Contact.astro';
 import Projects from '../components/Projects.astro';
 import BlogList from '../components/BlogList.astro';
@@ -29,10 +28,8 @@ const personLd = {
   path="/"
   jsonLd={personLd}
 >
-  <Section id="about" cmd="whoami">
-    <Whoami />
-    <Contact />
-    <Experience />
+  <Section id="whoami" cmd="whoami">
+    <Whoami><Contact /></Whoami>
   </Section>
   <Section id="projects" cmd="ls projects/"><Projects /></Section>
   <Section id="blog" cmd="ls blog/"><BlogList /></Section>

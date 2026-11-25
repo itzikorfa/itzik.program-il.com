@@ -1,0 +1,18 @@
+---
+import Terminal from '../../layouts/Terminal.astro';
+import Experience from '../../components/Experience.astro';
+import Contact from '../../components/Contact.astro';
+import { profile } from '../../data/profile';
+---
+<Terminal title={`About · ${profile.name}`} description={profile.about.join(' ')} path="/about/" homeLinks>
+  <section id="about" aria-labelledby="about-cmd">
+    <p class="prompt" id="about-cmd"><span class="ps1">itzik@program-il<span class="path">:~</span>$</span><span class="ps1-short">$</span>{' '}<span class="cmd">cat about.md</span></p>
+    <h1>{profile.name}</h1>
+    <p>{profile.title} · {profile.tagline}</p>
+    {profile.about.map((line) => <p class="comment">{line}</p>)}
+    <Experience />
+    <h2>contact</h2>
+    <Contact />
+    <p><a href="/">← cd ~</a></p>
+  </section>
+</Terminal>

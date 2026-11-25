@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { FORBIDDEN } from '../forbidden';
 
-const SECTIONS = ['about', 'projects', 'blog', 'reading', 'contact'] as const;
+const SECTIONS = ['projects', 'blog', 'reading', 'contact'] as const;
+const ABOUT_TEXT = 'Mentor to junior developers';
 
 test('shows name and title', async ({ page }) => {
   await page.goto('/');
@@ -23,7 +24,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('content visible without JS', async ({ page }) => {
     await page.goto('/');
-    for (const s of SECTIONS) await expect(page.locator(`#${s}`)).toBeVisible();
+    for (const s of ['whoami', ...SECTIONS]) await expect(page.locator(`#${s}`)).toBeVisible();
   });
 });
 
@@ -108,11 +109,12 @@ test('404 page', async ({ page }) => {
   await expect(page.locator('.notfound')).toContainText('command not found: nope');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
   for (const s of SECTIONS) await expect(page.locator(`main a[href="/#${s}"]`)).toBeAttached();
+  await expect(page.locator('main a[href="/about/"]')).toBeAttached();
 });
 
 test('prompt has a space before the command', async ({ page }) => {
   await page.goto('/');
-  const text = (await page.locator('#about-cmd').innerText()).replace(/\s+/g, ' ').trim();
+  const text = (await page.locator('#whoami-cmd').innerText()).replace(/\s+/g, ' ').trim();
   expect(text).toMatch(/\$ whoami$/);
 });
 
@@ -131,7 +133,7 @@ test('canonical address is itzik.program-il.com', async ({ page }) => {
 
 test('ascii portrait is shown with a text description', async ({ page }) => {
   await page.goto('/');
-  const portrait = page.locator('#about pre.portrait');
+  const portrait = page.locator('#whoami pre.portrait');
   await expect(portrait).toBeVisible();
   await expect(portrait).toHaveAttribute('role', 'img');
   await expect(portrait).toHaveAttribute('aria-label', /ASCII portrait of Yizhak \(Itzik\) Orfanian/);
@@ -160,4 +162,40 @@ test('share preview image', async ({ page, request }) => {
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
   const res = await request.get('/og.png');
   expect(res.status()).toBe(200);
+});
+
+test('about text lives on /about/, not the home page', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('body')).not.toContainText(ABOUT_TEXT);
+  await page.locator('nav.commands').getByRole('link', { name: 'about', exact: true }).click();
+  await expect(page).toHaveURL(/\/about\/$/);
+  await expect(page.locator('h1')).toHaveText('Yizhak (Itzik) Orfanian');
+  for (const t of ['10 years at Check Point', 'LangFlow', ABOUT_TEXT, 'experience/', 'education/', 'skills.json', 'certifications'])
+    await expect(page.locator('main')).toContainText(t);
+});
+
+test('portrait is compact on desktop', async ({ page }, info) => {
+  test.skip(info.project.name !== 'desktop');
+  await page.goto('/');
+  const box = (await page.locator('pre.portrait').boundingBox())!;
+  expect(box.width).toBeLessThanOrEqual(260);
+  expect(box.height).toBeLessThanOrEqual(400);
+});
+
+test('portrait decodes into place on load', async ({ page }) => {
+  await page.goto('/');
+  const portrait = page.locator('pre.portrait');
+  const final = await portrait.getAttribute('data-final-length');
+  await expect(portrait).toHaveAttribute('data-animated', 'done', { timeout: 4000 });
+  const text = await portrait.textContent();
+  expect(String(text!.length)).toBe(final);
+  expect(text).toContain('@');
+});
+
+test.describe('portrait with reduced motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+  test('portrait is static', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('pre.portrait')).not.toHaveAttribute('data-animated', /.+/);
+  });
 });
