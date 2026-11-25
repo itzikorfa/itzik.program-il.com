@@ -75,3 +75,17 @@ Build-time env vars (set in Amplify): `GITHUB_TOKEN` (optional, avoids GitHub AP
 
 © Yizhak (Itzik) Orfanian. All rights reserved. The code and content in this repository may not be
 reused, copied or redistributed without permission.
+
+## Favorites (visitor suggestions)
+
+Visitors suggest a link at `/favorites/suggest/`. They get an email with a confirmation link; confirming opens a
+pull request that adds one file to `src/content/favorites/`. **Edit the file in the PR if you like, then merge to
+publish** (or close to reject). The list shows newest first.
+
+Backend (AWS, us-east-1): Lambda `favorites-suggest` + function URL, a rate-limit table, SES email.
+
+- One-time email setup: `infra/setup-ses.sh`, then request SES production access in the AWS console.
+- GitHub token (fine-grained, this repo only, **Contents: read & write** and **Pull requests: read & write**):
+  copy it, then `pbpaste | infra/set-github-token.sh`. Repeat when it expires.
+- Deploy or update the backend: `infra/deploy-favorites.sh`. It prints the API URL.
+- Turn the form on: set Amplify env var `PUBLIC_FAVORITES_API` to that URL and rebuild. Unset = form shows "closed".

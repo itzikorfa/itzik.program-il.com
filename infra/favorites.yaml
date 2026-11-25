@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Favorites suggestions for itzik.program-il.com (email-verified link suggestions -> GitHub pull requests).
+
+Parameters:
+  AllowedOrigin:
+    Type: String
+    Default: https://itzik.program-il.com
+  Repo:
+    Type: String
+    Default: itzikorfa/itzik.program-il.com
+  SesIdentity:
+    Type: String
+    Default: program-il.com
+  FromAddress:
+    Type: String
+    Default: noreply@program-il.com
+  ParamPrefix:
+    Type: String
+    Default: /favorites
+
+Resources:
+  RateTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+      TimeToLiveSpecification:
+        AttributeName: expires
+        Enabled: true
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/favorites-suggest
+      RetentionInDays: 14
+
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: { Service: lambda.amazonaws.com }
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: favorites
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: { 'Fn::GetAtt': [LogGroup, Arn] }
+              - Effect: Allow
+                Action: [dynamodb:UpdateItem]
+                Resource: { 'Fn::GetAtt': [RateTable, Arn] }
+              - Effect: Allow
+                Action: [ssm:GetParameters]
+                Resource: { 'Fn::Sub': 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter${ParamPrefix}/*' }
+              - Effect: Allow
+                Action: [ses:SendEmail]
+                Resource: { 'Fn::Sub': 'arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/${SesIdentity}' }
+                Condition:
+                  StringEquals:
+                    'ses:FromAddress': { Ref: FromAddress }
+
+  Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: favorites-suggest
+      Description: Favorites suggestions (code is uploaded by infra/deploy-favorites.sh)
+      Runtime: nodejs22.x
+      Architectures: [arm64]
+      Handler: index.handler
+      MemorySize: 256
+      Timeout: 10
+      Role: { 'Fn::GetAtt': [Role, Arn] }
+      LoggingConfig:
+        LogGroup: { Ref: LogGroup }
+      Code:
+        ZipFile: "exports.handler = async () => ({ statusCode: 503, body: 'not deployed yet' });"
+      Environment:
+        Variables:
+          TABLE_NAME: { Ref: RateTable }
+          FROM_ADDRESS: { Ref: FromAddress }
+          REPO: { Ref: Repo }
+          ALLOWED_ORIGIN: { Ref: AllowedOrigin }
+          PARAM_PREFIX: { Ref: ParamPrefix }
+
+  FunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      TargetFunctionArn: { 'Fn::GetAtt': [Function, Arn] }
+      AuthType: NONE
+      Cors:
+        AllowOrigins: [{ Ref: AllowedOrigin }]
+        AllowMethods: [POST]
+        AllowHeaders: [content-type]
+        MaxAge: 86400
+
+  UrlInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: { Ref: Function }
+      Action: lambda:InvokeFunctionUrl
+      Principal: '*'
+      FunctionUrlAuthType: NONE
+
+  UrlFunctionInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: { Ref: Function }
+      Action: lambda:InvokeFunction
+      Principal: '*'
+      InvokedViaFunctionUrl: true
+
+Outputs:
+  FunctionUrl:
+    Value: { 'Fn::GetAtt': [FunctionUrl, FunctionUrl] }
