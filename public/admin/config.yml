@@ -1,0 +1,56 @@
+# Sveltia CMS config. Field names must match src/content.config.ts (tested in tests/unit/cms-config.test.ts).
+backend:
+  name: github
+  repo: itzikorfa/program-il.com
+  branch: main
+  commit_messages:
+    create: 'content: add {{collection}} "{{slug}}"'
+    update: 'content: update {{collection}} "{{slug}}"'
+    delete: 'content: delete {{collection}} "{{slug}}"'
+    uploadMedia: 'content: upload "{{path}}"'
+    deleteMedia: 'content: delete "{{path}}"'
+
+media_folder: public/images/blog
+public_folder: /images/blog
+site_url: https://program-il.com
+display_url: https://program-il.com
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Post
+    folder: src/content/blog
+    extension: md
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}} · {{date}}{{draft}}'
+    sortable_fields: [date, title]
+    preview_path: 'blog/{{slug}}/'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
+      - { name: summary, label: Summary (one line, shown in lists and when shared), widget: string }
+      - { name: tags, label: Tags, widget: list, required: false, default: [] }
+      - { name: draft, label: Draft (hidden from the site while on), widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+
+  - name: reading
+    label: Worth reading
+    files:
+      - name: reading
+        label: Worth reading list
+        file: src/content/reading.yaml
+        format: yaml
+        fields:
+          - name: items
+            label: Links
+            label_singular: Link
+            widget: list
+            root: true
+            summary: '{{fields.date}} · {{fields.title}}'
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: url, label: URL, widget: string, pattern: ['^https?://', 'Must start with http:// or https://'] }
+              - { name: date, label: Date, widget: datetime, format: 'YYYY-MM-DD', time_format: false }
+              - { name: note, label: Why it's worth reading, widget: string }
