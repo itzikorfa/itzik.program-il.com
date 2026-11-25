@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - English only.
-- **Never published (site or repo):** the owner's phone number, any `@gmail.com` address, his home town, and any `*.doc`/`*.docx`. The exact phone/town strings are never written in tracked files, not even in tests or docs. They live only in the untracked `.private-patterns` file (see below).
+- **Never published (site or repo):** the owner's phone number, any Gmail address, his home town, and any `*.doc`/`*.docx`. The exact phone/town strings are never written in tracked files, not even in tests or docs. They live only in the untracked `.private-patterns` file (see below).
 - Contact shown: LinkedIn `https://www.linkedin.com/in/oitzik/`, GitHub `https://github.com/itzikorfa`, email `hi@program-il.com`. Location at most "Israel".
 - Projects: only public repos of `itzikorfa` with topic `portfolio`, and never forks.
 - Static output only, so all content must be present in the HTML without JavaScript. The typing animation is enhancement only and is disabled under `prefers-reduced-motion`.
