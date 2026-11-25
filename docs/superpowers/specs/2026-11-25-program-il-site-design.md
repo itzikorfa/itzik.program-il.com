@@ -153,6 +153,13 @@ show name, description, primary language, link, stars if > 0). A **daily schedul
 a push. If the API fails during a build, the build should still succeed (show last known list or an
 empty-state message), never break the site.
 
+## Address change (owner decision, 2026-11-25)
+
+The personal site lives at **`https://itzik.program-il.com`**. That's the canonical URL used everywhere: links, sitemap, RSS, llms.txt and CMS.
+`program-il.com` and `www.program-il.com` **temporarily (302)** redirect to it, path preserved, so `program-il.com` stays free
+for a future site. Email stays `hi@program-il.com`. Future projects each get their own repo and subdomain
+(e.g. `primecarehub.program-il.com`).
+
 ## Owner review before going live (approval condition)
 
 The owner approved this design on the condition that he sees the site before it is public:

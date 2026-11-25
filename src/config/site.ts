@@ -1,5 +1,5 @@
-export const SITE_URL = 'https://program-il.com';
-export const SITE_NAME = 'program-il.com';
+export const SITE_URL = 'https://itzik.program-il.com';
+export const SITE_NAME = 'itzik.program-il.com';
 
 /** false on staging (Amplify default URL): robots.txt blocks everything and pages are noindex. */
 export const SITE_INDEXABLE = import.meta.env.SITE_INDEXABLE === 'true';

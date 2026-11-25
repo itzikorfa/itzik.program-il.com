@@ -122,3 +122,9 @@ test('mobile command bar is one compact row', async ({ page }, info) => {
   const nav = (await page.locator('nav.commands').boundingBox())!;
   expect(nav.height).toBeLessThanOrEqual(64);
 });
+
+test('canonical address is itzik.program-il.com', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://itzik.program-il.com/');
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://itzik.program-il.com/');
+});

@@ -8,7 +8,7 @@ test('llms.txt', async ({ request }) => {
   expect(txt.startsWith('# Yizhak (Itzik) Orfanian\n')).toBe(true);
   expect(txt).toMatch(/^> .+/m);
   expect(txt).toContain('## Blog');
-  expect(txt).toContain('https://program-il.com/blog/hello-world.md');
+  expect(txt).toContain('https://itzik.program-il.com/blog/hello-world.md');
   expect(txt).toContain('## Projects');
   expect(txt).toContain('## Links');
   expect(txt).toContain('https://www.linkedin.com/in/oitzik/');

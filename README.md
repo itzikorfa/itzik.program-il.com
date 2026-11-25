@@ -1,10 +1,10 @@
 # program-il.com
 
-Personal site of Yizhak (Itzik) Orfanian. It's a static [Astro](https://astro.build) site with a console look, hosted on AWS Amplify.
+Personal site of Yizhak (Itzik) Orfanian at **itzik.program-il.com** (program-il.com redirects here for now). It's a static [Astro](https://astro.build) site with a console look, hosted on AWS Amplify.
 
 ## Write a post
 
-**From the browser (or phone):** go to `https://program-il.com/admin/` and sign in with a GitHub
+**From the browser (or phone):** go to `https://itzik.program-il.com/admin/` and sign in with a GitHub
 fine-grained token that has *Contents: read & write* on this repo only. New posts start as **drafts**.
 Switch "Draft" off and publish, and the site rebuilds in a couple of minutes.
 

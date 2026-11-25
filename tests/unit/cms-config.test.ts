@@ -30,3 +30,10 @@ describe('cms config matches content schema', () => {
     expect(names(list.fields)).toEqual(['title', 'url', 'date', 'note']);
   });
 });
+
+describe('cms site address', () => {
+  it('previews on itzik.program-il.com', () => {
+    expect(cfg.site_url).toBe('https://itzik.program-il.com');
+    expect(cfg.display_url).toBe('https://itzik.program-il.com');
+  });
+});

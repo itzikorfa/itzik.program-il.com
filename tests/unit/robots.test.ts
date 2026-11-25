@@ -13,7 +13,7 @@ describe('buildRobots', () => {
     const star = group(txt, '*');
     expect(star).toContain('Disallow: /admin/');
     expect(star).not.toMatch(/^Disallow: \/$/m);
-    expect(txt).toContain('Sitemap: https://program-il.com/sitemap-index.xml');
+    expect(txt).toContain('Sitemap: https://itzik.program-il.com/sitemap-index.xml');
   });
 
   it('training switch', () => {

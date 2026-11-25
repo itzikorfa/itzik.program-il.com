@@ -242,7 +242,9 @@ Shared test helper `tests/forbidden.ts` exports `FORBIDDEN: RegExp[]` = `[/@gmai
 - [ ] **Step 1:** The owner opens the staging URL on their own phone and checks the home page, command buttons, a post, the contact buttons and `/admin`.
 - [ ] **Step 2:** Apply feedback. Before Task 12, get an explicit "go live" from the owner.
 
-### Task 12: Connect program-il.com, email alias, go live
+### Task 12: Connect itzik.program-il.com (+ redirect program-il.com), email alias, go live
+
+> Address change (owner, 2026-11-25): the site is served at `itzik.program-il.com`. Amplify domain association for `program-il.com` with sub-domains `itzik`, `` (apex) and `www` → branch `main`, plus custom rules: `https://program-il.com/<*>` and `https://www.program-il.com/<*>` → `https://itzik.program-il.com/<*>` with status **302**, placed before the 404 rule. Verify `curl -sI https://program-il.com/blog/x/` → 302 with `location: https://itzik.program-il.com/blog/x/`.
 
 - [ ] **Step 1:** Amplify domain management: add `program-il.com` (Route 53 zone `Z1033648316G4NJR1IOQU`) with the apex as the main domain and a `www` → apex redirect. Wait until the certificate status is **AVAILABLE**.
 - [ ] **Step 2:** Set `SITE_INDEXABLE=true` in Amplify and rebuild. **Verify:** `curl -sI https://program-il.com` → 200, `curl -sI https://www.program-il.com` → 301 to the apex, and `/robots.txt` shows the training-bot blocks plus `Disallow: /admin/`.

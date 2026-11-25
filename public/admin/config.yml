@@ -12,8 +12,8 @@ backend:
 
 media_folder: public/images/blog
 public_folder: /images/blog
-site_url: https://program-il.com
-display_url: https://program-il.com
+site_url: https://itzik.program-il.com
+display_url: https://itzik.program-il.com
 
 collections:
   - name: blog
