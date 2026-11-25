@@ -33,7 +33,8 @@ describe('/admin page', () => {
 });
 
 describe('Amplify security headers', () => {
-  const cfg = parse(readFileSync('amplify.yml', 'utf8'));
+  // Amplify reads custom headers from customHttp.yml (headers in amplify.yml are ignored).
+  const cfg = parse(readFileSync('customHttp.yml', 'utf8'));
   const all = cfg.customHeaders.find((h: { pattern: string }) => h.pattern === '**/*').headers;
   const get = (k: string) => all.find((h: { key: string }) => h.key === k)?.value;
   it('sets HSTS, framing and sniffing protections', () => {
@@ -43,5 +44,11 @@ describe('Amplify security headers', () => {
     expect(get('X-Content-Type-Options')).toBe('nosniff');
     expect(get('Referrer-Policy')).toBe('strict-origin-when-cross-origin');
     expect(get('Permissions-Policy')).toBe('camera=(), microphone=(), geolocation=()');
+  });
+});
+
+describe('amplify.yml', () => {
+  it('no longer carries headers (they live in customHttp.yml)', () => {
+    expect(parse(readFileSync('amplify.yml', 'utf8')).customHeaders).toBeUndefined();
   });
 });
