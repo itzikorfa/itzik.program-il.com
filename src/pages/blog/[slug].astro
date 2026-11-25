@@ -1,0 +1,36 @@
+---
+import { render } from 'astro:content';
+import Terminal from '../../layouts/Terminal.astro';
+import { getPublishedPosts, postUrl, postMarkdownUrl, isoDate } from '../../lib/posts';
+import { profile } from '../../data/profile';
+import { SITE_URL } from '../../config/site';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const url = new URL(postUrl(post.id), SITE_URL).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.summary,
+  datePublished: post.data.date.toISOString(),
+  url,
+  mainEntityOfPage: url,
+  keywords: post.data.tags.join(', ') || undefined,
+  author: { '@type': 'Person', name: profile.name, url: SITE_URL },
+};
+---
+<Terminal title={`${post.data.title} · ${profile.name}`} description={post.data.summary} path={postUrl(post.id)} ogType="article" jsonLd={ld} homeLinks>
+  <link slot="head" rel="alternate" type="text/markdown" href={postMarkdownUrl(post.id)} />
+  <article class="post">
+    <p class="prompt"><span class="ps1">itzik@program-il<span class="path">:~/blog</span>$</span><span class="ps1-short">$</span> <span class="cmd">cat {post.id}.md</span></p>
+    <h1>{post.data.title}</h1>
+    <p class="meta">{isoDate(post.data.date)}{post.data.tags.length > 0 && ` · ${post.data.tags.map((t) => '#' + t).join(' ')}`} · <a href={postMarkdownUrl(post.id)}>view as markdown</a></p>
+    <div class="prose"><Content /></div>
+    <p><a href="/#blog">← cd ~/blog</a></p>
+  </article>
+</Terminal>

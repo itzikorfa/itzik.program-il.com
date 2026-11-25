@@ -1,0 +1,18 @@
+---
+import { getPublishedPosts, postUrl, isoDate } from '../lib/posts';
+const posts = (await getPublishedPosts()).slice(0, 5);
+---
+{posts.length === 0 ? (
+  <p class="comment">no posts yet</p>
+) : (
+  <ul class="list">
+    {posts.map((p) => (
+      <li>
+        <a class="row-link" href={postUrl(p.id)}>
+          <span class="meta">{isoDate(p.data.date)}</span>&nbsp; <span class="name">{p.id}.md</span>
+          <div>{p.data.summary}</div>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
