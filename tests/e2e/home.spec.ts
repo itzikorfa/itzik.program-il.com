@@ -101,3 +101,11 @@ test('reading renders items', async ({ page }) => {
   await expect(link).toHaveAttribute('rel', /noopener/);
   await expect(page.locator('#reading')).toContainText('A short note.');
 });
+
+test('404 page', async ({ page }) => {
+  const res = await page.goto('/nope/');
+  expect(res!.status()).toBe(404);
+  await expect(page.locator('.notfound')).toContainText('command not found: nope');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  for (const s of SECTIONS) await expect(page.locator(`main a[href="/#${s}"]`)).toBeAttached();
+});
