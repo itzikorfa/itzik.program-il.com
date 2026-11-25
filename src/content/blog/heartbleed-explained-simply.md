@@ -1,9 +1,12 @@
 ---
-title: "Heartbleed, explained simply"
+title: Heartbleed, explained simply
 date: 2026-11-26
 summary: "Famous security bugs, part 1: the 2014 bug that made the internet's padlock leak passwords and secret keys, explained for people who don't work in security."
-tags: [security, cve, explained]
-draft: true
+tags:
+  - security
+  - cve
+  - explained
+draft: false
 ---
 
 *Famous security bugs, explained simply: part 1.* A series about real security flaws that made headlines, written for people who **don't** work in security. Each story answers four questions: what was the problem, how was it found, why should you care, and did anyone actually get hurt?
