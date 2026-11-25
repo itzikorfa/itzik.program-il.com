@@ -31,7 +31,7 @@ test('rss lists published posts', async ({ request }) => {
 test('draft is not published', async ({ page, request }) => {
   expect((await request.get('/blog/draft-post/')).status()).toBe(404);
   expect((await request.get('/blog/draft-post.md')).status()).toBe(404);
-  for (const path of ['/', '/rss.xml', '/sitemap-0.xml']) {
+  for (const path of ['/', '/rss.xml', '/sitemap-0.xml', '/llms.txt', '/llms-full.txt']) {
     expect(await (await request.get(path)).text(), path).not.toContain('draft-post');
   }
   await page.goto('/');

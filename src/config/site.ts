@@ -29,3 +29,26 @@ export const ALLOWED_BOTS = [
   'PerplexityBot',
   'Perplexity-User',
 ];
+
+/**
+ * robots.txt contents.
+ * Staging (not indexable): block everything. Production: allow everyone except /admin/,
+ * and block AI training crawlers unless allowTraining is true.
+ */
+export function buildRobots(opts: { indexable: boolean; allowTraining: boolean }): string {
+  if (!opts.indexable) return 'User-agent: *\nDisallow: /\n';
+  const groups: string[] = [];
+  if (!opts.allowTraining) {
+    groups.push(
+      '# AI training crawlers: blocked for now (switch: ALLOW_AI_TRAINING in src/config/site.ts)\n' +
+        AI_TRAINING_BOTS.map((b) => `User-agent: ${b}`).join('\n') +
+        '\nDisallow: /',
+    );
+  }
+  groups.push(
+    '# Everyone else, incl. search engines and AI search/answer bots:\n# ' +
+      ALLOWED_BOTS.join(', ') +
+      '\nUser-agent: *\nAllow: /\nDisallow: /admin/',
+  );
+  return groups.join('\n\n') + `\n\nSitemap: ${SITE_URL}/sitemap-index.xml\n`;
+}
