@@ -4,8 +4,7 @@ const { id, cmd } = Astro.props;
 ---
 <section id={id} aria-labelledby={`${id}-cmd`}>
   <p class="prompt" id={`${id}-cmd`}>
-    <span class="ps1">itzik@program-il<span class="path">:~</span>$</span><span class="ps1-short">$</span>
-    <span class="cmd">{cmd}</span>
+    <span class="ps1">itzik@program-il<span class="path">:~</span>$</span><span class="ps1-short">$</span>{' '}<span class="cmd">{cmd}</span>
   </p>
   <slot />
 </section>

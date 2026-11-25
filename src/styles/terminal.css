@@ -108,8 +108,13 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
   body { font-size: 14px; }
   .window { margin: 0; border: 0; border-radius: 0; }
   .titlebar { display: none; }
-  nav.commands { padding: 8px 16px; }
-  nav.commands .hint { width: 100%; }
+  nav.commands {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    padding: 8px 16px; gap: 6px;
+  }
+  nav.commands::-webkit-scrollbar { display: none; }
+  nav.commands .hint { display: none; }
+  nav.commands a { flex: 0 0 auto; padding: 0 12px; }
   main { padding: 4px 16px 24px; }
   .ps1 { display: none; }
   .ps1-short { display: inline; }

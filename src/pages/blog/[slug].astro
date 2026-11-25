@@ -27,7 +27,7 @@ const ld = {
 <Terminal title={`${post.data.title} · ${profile.name}`} description={post.data.summary} path={postUrl(post.id)} ogType="article" jsonLd={ld} homeLinks>
   <link slot="head" rel="alternate" type="text/markdown" href={postMarkdownUrl(post.id)} />
   <article class="post">
-    <p class="prompt"><span class="ps1">itzik@program-il<span class="path">:~/blog</span>$</span><span class="ps1-short">$</span> <span class="cmd">cat {post.id}.md</span></p>
+    <p class="prompt"><span class="ps1">itzik@program-il<span class="path">:~/blog</span>$</span><span class="ps1-short">$</span>{' '}<span class="cmd">cat {post.id}.md</span></p>
     <h1>{post.data.title}</h1>
     <p class="meta">{isoDate(post.data.date)}{post.data.tags.length > 0 && ` · ${post.data.tags.map((t) => '#' + t).join(' ')}`} · <a href={postMarkdownUrl(post.id)}>view as markdown</a></p>
     <div class="prose"><Content /></div>

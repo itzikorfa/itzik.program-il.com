@@ -109,3 +109,16 @@ test('404 page', async ({ page }) => {
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
   for (const s of SECTIONS) await expect(page.locator(`main a[href="/#${s}"]`)).toBeAttached();
 });
+
+test('prompt has a space before the command', async ({ page }) => {
+  await page.goto('/');
+  const text = (await page.locator('#about-cmd').innerText()).replace(/\s+/g, ' ').trim();
+  expect(text).toMatch(/\$ whoami$/);
+});
+
+test('mobile command bar is one compact row', async ({ page }, info) => {
+  test.skip(!['iphone', 'pixel', 'small'].includes(info.project.name));
+  await page.goto('/');
+  const nav = (await page.locator('nav.commands').boundingBox())!;
+  expect(nav.height).toBeLessThanOrEqual(64);
+});
