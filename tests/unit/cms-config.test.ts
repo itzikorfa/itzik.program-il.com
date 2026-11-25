@@ -7,7 +7,7 @@ const names = (fields: { name: string }[]) => fields.map((f) => f.name);
 
 describe('cms config matches content schema', () => {
   it('uses the GitHub backend on main', () => {
-    expect(cfg.backend).toMatchObject({ name: 'github', repo: 'itzikorfa/program-il.com', branch: 'main' });
+    expect(cfg.backend).toMatchObject({ name: 'github', repo: 'itzikorfa/itzik.program-il.com', branch: 'main' });
     expect(cfg.media_folder).toBe('public/images/blog');
     expect(cfg.public_folder).toBe('/images/blog');
   });

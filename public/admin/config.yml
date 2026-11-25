@@ -1,7 +1,7 @@
 # Sveltia CMS config. Field names must match src/content.config.ts (tested in tests/unit/cms-config.test.ts).
 backend:
   name: github
-  repo: itzikorfa/program-il.com
+  repo: itzikorfa/itzik.program-il.com
   branch: main
   commit_messages:
     create: 'content: add {{collection}} "{{slug}}"'
