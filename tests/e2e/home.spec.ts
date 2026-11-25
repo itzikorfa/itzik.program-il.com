@@ -128,3 +128,36 @@ test('canonical address is itzik.program-il.com', async ({ page }) => {
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://itzik.program-il.com/');
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://itzik.program-il.com/');
 });
+
+test('ascii portrait is shown with a text description', async ({ page }) => {
+  await page.goto('/');
+  const portrait = page.locator('#about pre.portrait');
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute('role', 'img');
+  await expect(portrait).toHaveAttribute('aria-label', /ASCII portrait of Yizhak \(Itzik\) Orfanian/);
+  const box = (await portrait.boundingBox())!;
+  const viewport = page.viewportSize()!;
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(viewport.width); // fully on screen, no clipping
+});
+
+test('name is visible before scrolling on phones', async ({ page }, info) => {
+  test.skip(!['iphone', 'pixel', 'small'].includes(info.project.name));
+  await page.goto('/');
+  const h1 = (await page.locator('h1').boundingBox())!;
+  expect(h1.y + h1.height).toBeLessThanOrEqual(page.viewportSize()!.height * 0.5);
+});
+
+test('portrait text is not merged by font ligatures', async ({ page }) => {
+  await page.goto('/');
+  const lig = await page.locator('pre.portrait').evaluate((el) => getComputedStyle(el).fontVariantLigatures);
+  expect(lig).toBe('none');
+});
+
+test('share preview image', async ({ page, request }) => {
+  await page.goto('/');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://itzik.program-il.com/og.png');
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+  const res = await request.get('/og.png');
+  expect(res.status()).toBe(200);
+});

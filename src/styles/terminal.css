@@ -139,3 +139,22 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
 .prose blockquote { margin: 0 0 1rem; padding-left: 12px; border-left: 3px solid var(--border); color: var(--muted); }
 
 .reading a, .reading .comment { overflow-wrap: anywhere; }
+
+/* whoami: ASCII portrait beside the intro, like neofetch */
+.whoami { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+.portrait {
+  margin: 0;
+  color: var(--prompt);
+  font: 9px/1.15 var(--mono);
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+  white-space: pre;
+  user-select: none;
+}
+@media (max-width: 860px) {
+  .whoami { grid-template-columns: 1fr; gap: 12px; }
+  /* Name first on small screens; portrait below at ~60% of the width (a mono cell is ~0.6em wide). */
+  .whoami-info { order: -1; }
+  .portrait { font-size: min(9px, calc((100vw - 32px) / 56)); justify-self: center; }
+}

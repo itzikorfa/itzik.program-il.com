@@ -1,6 +1,12 @@
 ---
 import { profile } from '../data/profile';
+import portrait from '../data/portrait.txt?raw';
 ---
-<h1>{profile.name}</h1>
-<p>{profile.title} · {profile.tagline}</p>
-{profile.about.map((line) => <p class="comment">{line}</p>)}
+<div class="whoami">
+  <pre class="portrait" role="img" aria-label={`ASCII portrait of ${profile.name}: bald, glasses, full beard`}>{portrait}</pre>
+  <div class="whoami-info">
+    <h1>{profile.name}</h1>
+    <p>{profile.title} · {profile.tagline}</p>
+    {profile.about.map((line) => <p class="comment">{line}</p>)}
+  </div>
+</div>

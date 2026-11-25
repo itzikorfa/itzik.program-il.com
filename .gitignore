@@ -10,3 +10,4 @@ dist/
 .private-patterns
 test-results/
 playwright-report/
+WhatsApp Image*

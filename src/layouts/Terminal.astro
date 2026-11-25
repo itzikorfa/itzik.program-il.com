@@ -34,7 +34,11 @@ const robots = noindex || !SITE_INDEXABLE;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={new URL('/og.png', SITE_URL).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Yizhak (Itzik) Orfanian, Senior Software Developer, Cloud Security & AI" />
+    <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
     {jsonLd && <script type="application/ld+json" set:html={jsonLdString(jsonLd)} />}
   </head>

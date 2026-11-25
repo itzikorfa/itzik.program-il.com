@@ -48,6 +48,11 @@ one-line description. It appears after the next build. Forks are never shown.
 
 The site also rebuilds automatically every day at 03:00 UTC.
 
+## Portrait
+
+The ASCII portrait (`src/data/portrait.txt`) and the share card (`public/og.png`) are generated from
+`assets/portrait-drawing.jpg`. Replace that file and run `npm run portrait`.
+
 ## AI crawlers
 
 `/llms.txt`, `/llms-full.txt` and a Markdown copy of every post (`/blog/<slug>.md`) help AI tools describe the site accurately.

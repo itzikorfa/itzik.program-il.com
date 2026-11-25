@@ -43,3 +43,9 @@ describe('commit metadata', () => {
     for (const re of FORBIDDEN) expect(emails, `commit emails match ${re}`).not.toMatch(re);
   });
 });
+
+describe('images', () => {
+  it('original WhatsApp image is not tracked', () => {
+    expect(tracked().some((f) => /whatsapp/i.test(f))).toBe(false);
+  });
+});
