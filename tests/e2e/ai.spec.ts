@@ -29,3 +29,9 @@ test('robots.txt served', async ({ request }) => {
   expect(txt).toContain('User-agent: GPTBot');
   expect(txt).toContain('Disallow: /admin/');
 });
+
+test('sitemap leaves out the confirm page', async ({ request }) => {
+  const xml = await (await request.get('/sitemap-0.xml')).text();
+  expect(xml).toContain('/favorites/suggest/');
+  expect(xml).not.toContain('/favorites/confirm/');
+});

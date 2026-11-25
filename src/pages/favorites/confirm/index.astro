@@ -1,0 +1,23 @@
+---
+import Terminal from '../../../layouts/Terminal.astro';
+const api = (import.meta.env.PUBLIC_FAVORITES_API ?? '').replace(/\/+$/, '');
+---
+<Terminal title="Confirm your suggestion · favorites" description="Confirm a link suggestion for the favorites list." path="/favorites/confirm/" noindex homeLinks>
+  <section id="confirm" aria-labelledby="confirm-cmd" data-api={api}>
+    <p class="prompt" id="confirm-cmd"><span class="ps1">itzik@program-il<span class="path">:~/favorites</span>$</span><span class="ps1-short">$</span>{' '}<span class="cmd">./confirm</span></p>
+    <h1>Confirm your suggestion</h1>
+    <dl id="confirm-details" class="term-details" hidden>
+      <dt>title</dt><dd id="confirm-title"></dd>
+      <dt>link</dt><dd id="confirm-url"></dd>
+      <dt>why</dt><dd id="confirm-why"></dd>
+      <dt>name</dt><dd id="confirm-name"></dd>
+    </dl>
+    <noscript><p>Confirming needs JavaScript. Please enable it and reload this page.</p></noscript>
+    <p id="confirm-status" role="status" aria-live="polite"></p>
+    <p><a href="/favorites/suggest/">suggest a link</a> · <a href="/#favorites">favorites</a></p>
+  </section>
+  <script>
+    import { initConfirm } from '../../../scripts/favorites';
+    initConfirm();
+  </script>
+</Terminal>

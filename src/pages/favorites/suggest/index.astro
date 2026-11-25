@@ -1,0 +1,48 @@
+---
+import Terminal from '../../../layouts/Terminal.astro';
+const api = (import.meta.env.PUBLIC_FAVORITES_API ?? '').replace(/\/+$/, '');
+---
+<Terminal title="Suggest a link · favorites" description="Suggest a website or GitHub repo for the favorites list on itzik.program-il.com." path="/favorites/suggest/" homeLinks>
+  <section id="suggest" aria-labelledby="suggest-cmd">
+    <p class="prompt" id="suggest-cmd"><span class="ps1">itzik@program-il<span class="path">:~/favorites</span>$</span><span class="ps1-short">$</span>{' '}<span class="cmd">./suggest-link</span></p>
+    <h1>Suggest a link</h1>
+    <p class="comment">Know a website or GitHub repo worth sharing? Send it in. I read every suggestion, and the good ones go on the favorites list.</p>
+    <form id="suggest-form" class="term-form" data-api={api} novalidate>
+      <fieldset disabled={!api}>
+        <label for="f-url">Link</label>
+        <input id="f-url" name="url" type="url" inputmode="url" required maxlength="300" placeholder="https://" autocomplete="url" />
+        <p class="field-error" data-error-for="url"></p>
+
+        <label for="f-title">Title</label>
+        <input id="f-title" name="title" type="text" required maxlength="100" />
+        <p class="field-error" data-error-for="title"></p>
+
+        <label for="f-why">Why it's worth it <span class="comment">(optional)</span></label>
+        <input id="f-why" name="why" type="text" maxlength="200" />
+        <p class="field-error" data-error-for="why"></p>
+
+        <label for="f-name">Your name <span class="comment">(optional, shown as "suggested by")</span></label>
+        <input id="f-name" name="name" type="text" maxlength="50" autocomplete="name" />
+        <p class="field-error" data-error-for="name"></p>
+
+        <label for="f-email">Your email</label>
+        <input id="f-email" name="email" type="email" required maxlength="254" autocomplete="email" />
+        <p class="field-error" data-error-for="email"></p>
+
+        <div class="hp" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="comment">Your email is only used to send one confirmation link. It is not stored or published.</p>
+        <button type="submit">$ submit</button>
+      </fieldset>
+      <p id="suggest-status" role="status" aria-live="polite">{!api && 'Suggestions are closed for now. Please check back soon.'}</p>
+    </form>
+    <p><a href="/#favorites">← back to favorites</a></p>
+  </section>
+  <script>
+    import { initSuggest } from '../../../scripts/favorites';
+    initSuggest();
+  </script>
+</Terminal>

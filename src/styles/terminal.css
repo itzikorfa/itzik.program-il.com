@@ -175,3 +175,18 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
 .favorites .credit { color: var(--muted); font-size: .9em; }
 .favorites li, .favorites .comment { overflow-wrap: anywhere; }
 .suggest { margin-top: .8rem; }
+.term-form fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: .25rem; max-width: 34rem; }
+.term-form label { color: var(--prompt); margin-top: .6rem; }
+.term-form input { font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: .55rem .6rem; width: 100%; box-sizing: border-box; }
+.term-form input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.term-form input[aria-invalid="true"] { border-color: #f85149; }
+.term-form .field-error { color: #ff7b72; margin: 0; min-height: 0; font-size: .9em; }
+.term-form .field-error:empty { display: none; }
+.term-form fieldset[disabled] { opacity: .55; }
+.term-form .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+#suggest button, #confirm button { font: inherit; color: var(--bg); background: var(--prompt); border: 0; border-radius: 4px; padding: .6rem 1rem; margin-top: .8rem; cursor: pointer; min-height: 44px; justify-self: start; }
+#suggest button:disabled, #confirm button:disabled { opacity: .6; cursor: progress; }
+#suggest-status, #confirm-status { overflow-wrap: anywhere; }
+.term-details { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; }
+.term-details dt { color: var(--muted); }
+.term-details dd { margin: 0; overflow-wrap: anywhere; }

@@ -20,7 +20,7 @@ try {
   for (const [fixture, target] of swaps) copyFileSync(fixture, target);
   execSync('npx astro build', {
     stdio: 'inherit',
-    env: { ...process.env, GITHUB_API_OFFLINE: '1', SITE_INDEXABLE: 'true' },
+    env: { ...process.env, GITHUB_API_OFFLINE: '1', SITE_INDEXABLE: 'true', PUBLIC_FAVORITES_API: 'https://api.test' },
   });
 } finally {
   for (const [target, data] of backups) (data === null ? rmSync(target) : writeFileSync(target, data));
