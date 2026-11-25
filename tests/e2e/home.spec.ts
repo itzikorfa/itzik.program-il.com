@@ -178,8 +178,8 @@ test('portrait is compact on desktop', async ({ page }, info) => {
   test.skip(info.project.name !== 'desktop');
   await page.goto('/');
   const box = (await page.locator('pre.portrait').boundingBox())!;
-  expect(box.width).toBeLessThanOrEqual(260);
-  expect(box.height).toBeLessThanOrEqual(400);
+  expect(box.width).toBeLessThanOrEqual(170);
+  expect(box.height).toBeLessThanOrEqual(300);
 });
 
 test('portrait decodes into place on load', async ({ page }) => {
@@ -198,4 +198,16 @@ test.describe('portrait with reduced motion', () => {
     await page.goto('/');
     await expect(page.locator('pre.portrait')).not.toHaveAttribute('data-animated', /.+/);
   });
+});
+
+test('on phones the portrait is a small picture beside the name', async ({ page }, info) => {
+  test.skip(!['iphone', 'pixel', 'small'].includes(info.project.name));
+  await page.goto('/');
+  const portrait = (await page.locator('pre.portrait').boundingBox())!;
+  const h1 = (await page.locator('h1').boundingBox())!;
+  const firstContact = (await page.locator('#whoami .contact-links a').first().boundingBox())!;
+  expect(portrait.width).toBeLessThanOrEqual(130);
+  expect(portrait.height).toBeLessThanOrEqual(230);
+  expect(portrait.x + portrait.width).toBeLessThanOrEqual(h1.x + 1); // left of the name
+  expect(firstContact.y).toBeGreaterThanOrEqual(portrait.y + portrait.height - 1); // contacts below it
 });

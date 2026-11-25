@@ -9,8 +9,8 @@ const rows = portrait.trimEnd().split('\n').length;
     <h1>{profile.name}</h1>
     <p>{profile.title} · {profile.tagline}</p>
     <p class="comment">more: <a href="/about/">cat about.md</a></p>
-    <slot />
   </div>
+  <div class="whoami-contact"><slot /></div>
 </div>
 <script>
   import '../scripts/portrait.ts';
