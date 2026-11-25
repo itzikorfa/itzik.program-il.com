@@ -36,3 +36,10 @@ describe('repo hygiene', () => {
     expect(files).toContain('src/content/blog/hello-world.md');
   });
 });
+
+describe('commit metadata', () => {
+  it('no private email in commit authors or committers', () => {
+    const emails = execSync("git log --all --format='%ae %ce'", { encoding: 'utf8' });
+    for (const re of FORBIDDEN) expect(emails, `commit emails match ${re}`).not.toMatch(re);
+  });
+});
