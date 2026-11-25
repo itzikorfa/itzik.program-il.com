@@ -1,3 +1,38 @@
 ---
+import Terminal from '../layouts/Terminal.astro';
+import Section from '../components/Section.astro';
+import Whoami from '../components/Whoami.astro';
+import Experience from '../components/Experience.astro';
+import Contact from '../components/Contact.astro';
+import { profile } from '../data/profile';
+import { SITE_URL } from '../config/site';
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.title,
+  worksFor: { '@type': 'Organization', name: profile.employer },
+  url: SITE_URL,
+  email: `mailto:${profile.links.email}`,
+  address: { '@type': 'PostalAddress', addressCountry: 'IL' },
+  sameAs: [profile.links.linkedin, profile.links.github],
+  knowsAbout: profile.skills.flatMap((s) => s.items),
+};
 ---
-<html lang="en"><head><meta charset="utf-8"><title>program-il.com</title></head><body><h1>program-il.com</h1></body></html>
+<Terminal
+  title={`${profile.name} · ${profile.title}`}
+  description={`${profile.name}: ${profile.title}, ${profile.tagline}. ${profile.about[0]}`}
+  path="/"
+  jsonLd={personLd}
+>
+  <Section id="about" cmd="whoami">
+    <Whoami />
+    <Contact />
+    <Experience />
+  </Section>
+  <Section id="projects" cmd="ls projects/"><p class="comment">loading…</p></Section>
+  <Section id="blog" cmd="ls blog/"><p class="comment">loading…</p></Section>
+  <Section id="reading" cmd="cat reading.txt"><p class="comment">loading…</p></Section>
+  <Section id="contact" cmd="contact"><Contact /></Section>
+</Terminal>

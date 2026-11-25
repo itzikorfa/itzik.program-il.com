@@ -1,0 +1,29 @@
+---
+import { profile } from '../data/profile';
+---
+<h2>experience/</h2>
+<ul class="list">
+  {profile.experience.map((e) => (
+    <li>
+      <div><strong>{e.role}</strong> @ {e.org}</div>
+      <div class="meta">{e.period}</div>
+      <div>{e.line}</div>
+    </li>
+  ))}
+</ul>
+<h2>education/</h2>
+<ul class="list">
+  {profile.education.map((e) => (
+    <li>
+      <div><strong>{e.degree}</strong>, {e.school}</div>
+      <div class="meta">{e.years}</div>
+      {e.note && <div>{e.note}</div>}
+    </li>
+  ))}
+</ul>
+<h2>skills.json</h2>
+<dl class="kv">
+  {profile.skills.map((s) => (<><dt>"{s.group}"</dt><dd>{s.items.join(', ')}</dd></>))}
+</dl>
+<h2>certifications</h2>
+<p>{profile.certifications.join(' · ')}</p>

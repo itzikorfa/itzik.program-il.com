@@ -1,0 +1,9 @@
+---
+import { profile } from '../data/profile';
+---
+<p class="comment">The best way to reach me</p>
+<div class="contact-links">
+  <a href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+  <a href={profile.links.github} rel="me noopener" target="_blank">GitHub</a>
+  <a href={`mailto:${profile.links.email}`}>{profile.links.email}</a>
+</div>

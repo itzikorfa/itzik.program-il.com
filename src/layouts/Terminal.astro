@@ -1,0 +1,57 @@
+---
+import '../styles/terminal.css';
+import { SITE_URL, SITE_NAME, SITE_INDEXABLE } from '../config/site';
+import CommandBar from '../components/CommandBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogType?: 'website' | 'article';
+  jsonLd?: object;
+  noindex?: boolean;
+  homeLinks?: boolean;
+}
+const { title, description, path, ogType = 'website', jsonLd, noindex = false, homeLinks = false } = Astro.props;
+const canonical = new URL(path, SITE_URL).href;
+const robots = noindex || !SITE_INDEXABLE;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {robots && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0d1117" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} blog`} href="/rss.xml" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <div class="window">
+      <div class="titlebar" aria-hidden="true">
+        <span class="dot" style="background:#ff5f56"></span>
+        <span class="dot" style="background:#ffbd2e"></span>
+        <span class="dot" style="background:#27c93f"></span>
+        <span class="title">itzik@program-il: ~</span>
+      </div>
+      <CommandBar homeLinks={homeLinks} />
+      <main>
+        <slot />
+      </main>
+      <footer>© {new Date().getFullYear()} Yizhak (Itzik) Orfanian · <a href="/rss.xml">rss</a> · <a href="/llms.txt">llms.txt</a></footer>
+    </div>
+    <script>
+      import '../scripts/typing.ts';
+    </script>
+  </body>
+</html>

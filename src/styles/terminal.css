@@ -1,0 +1,120 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --muted: #9aa4af;
+  --heading: #ffa657;
+  --prompt: #7ee787;
+  --path: #79c0ff;
+  --link: #58a6ff;
+  --accent: #d2a8ff;
+  --focus: #f0f6fc;
+  --mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.65 var(--mono);
+  -webkit-text-size-adjust: 100%;
+}
+
+a { color: var(--link); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+.window {
+  max-width: 920px;
+  margin: 2rem auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: clip;
+}
+.titlebar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  color: var(--muted); font-size: 13px;
+}
+.titlebar .dot { width: 12px; height: 12px; border-radius: 50%; }
+.titlebar .title { margin-left: 8px; }
+
+nav.commands {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 10px 20px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+}
+nav.commands .hint { color: var(--muted); font-size: 13px; margin-right: 4px; }
+nav.commands a {
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: 0 14px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface);
+  color: var(--path); text-decoration: none;
+}
+nav.commands a:hover, nav.commands a[aria-current='true'] { border-color: var(--link); color: var(--text); }
+
+main { padding: 8px 20px 32px; }
+
+section { padding: 18px 0 8px; }
+.prompt { margin: 0 0 8px; overflow-wrap: anywhere; }
+.ps1 { color: var(--prompt); }
+.ps1 .path { color: var(--path); }
+.ps1-short { display: none; color: var(--prompt); }
+.cmd { color: var(--text); }
+.cmd.typing::after { content: '▋'; margin-left: 1px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+h1 { color: var(--heading); font-size: 1.35rem; margin: 0; line-height: 1.3; }
+h2 { color: var(--heading); font-size: 1rem; margin: 1.2rem 0 .4rem; }
+.comment { color: var(--muted); }
+.comment::before { content: '# '; }
+p { margin: .3rem 0; }
+
+.list { list-style: none; padding: 0; margin: 0; }
+.list > li { padding: 10px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.list > li:last-child { border-bottom: 0; }
+.list .meta { color: var(--muted); font-size: 13px; }
+.row-link { display: block; text-decoration: none; }
+.row-link .name { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 2px 14px; }
+.kv dt { color: var(--accent); }
+.kv dd { margin: 0; overflow-wrap: anywhere; }
+
+.contact-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.contact-links a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 16px;
+  border: 1px solid var(--border); border-radius: 6px;
+  text-decoration: none;
+}
+.contact-links a:hover { border-color: var(--link); }
+
+footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); }
+
+@media (max-width: 640px) {
+  body { font-size: 14px; }
+  .window { margin: 0; border: 0; border-radius: 0; }
+  .titlebar { display: none; }
+  nav.commands { padding: 8px 16px; }
+  nav.commands .hint { width: 100%; }
+  main { padding: 4px 16px 24px; }
+  .ps1 { display: none; }
+  .ps1-short { display: inline; }
+  .kv { grid-template-columns: 1fr; }
+  .kv dt { margin-top: 6px; }
+  .contact-links a { flex: 1 1 100%; }
+  footer { padding: 16px; }
+}
