@@ -80,3 +80,11 @@ test('Person JSON-LD', async ({ page }) => {
     expect.arrayContaining(['https://www.linkedin.com/in/oitzik/', 'https://github.com/itzikorfa']),
   );
 });
+
+test('projects empty state', async ({ page }) => {
+  // e2e builds run with GITHUB_API_OFFLINE=1 and the committed (empty) snapshot.
+  await page.goto('/');
+  await expect(page.locator('#projects')).toContainText('no projects tagged yet');
+  await expect(page.locator('#projects')).not.toContainText('null');
+  await expect(page.locator('#projects')).not.toContainText('undefined');
+});

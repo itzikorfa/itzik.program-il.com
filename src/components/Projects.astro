@@ -1,0 +1,29 @@
+---
+import { fetchPortfolioRepos, type Repo } from '../lib/github';
+import snapshot from '../data/projects.snapshot.json';
+import { profile } from '../data/profile';
+
+const repos = await fetchPortfolioRepos({
+  user: 'itzikorfa',
+  token: import.meta.env.GITHUB_TOKEN,
+  snapshot: snapshot as Repo[],
+  offline: import.meta.env.GITHUB_API_OFFLINE === '1',
+});
+---
+{repos.length === 0 ? (
+  <p class="comment">no projects tagged yet. See them all on <a href={profile.links.github}>GitHub</a></p>
+) : (
+  <ul class="list">
+    {repos.map((r) => (
+      <li>
+        <a class="row-link" href={r.url} target="_blank" rel="noopener">
+          <span class="name">{r.name}/</span>
+          {(r.language || r.stars > 0) && (
+            <span class="meta"> {[r.language, r.stars > 0 ? `★ ${r.stars}` : null].filter(Boolean).join(' · ')}</span>
+          )}
+          {r.description && <div>{r.description}</div>}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
