@@ -14,6 +14,9 @@ Parameters:
   FromAddress:
     Type: String
     Default: noreply@program-il.com
+  OwnerEmail:
+    Type: String
+    Default: hi@program-il.com
   ParamPrefix:
     Type: String
     Default: /favorites
@@ -86,6 +89,7 @@ Resources:
         Variables:
           TABLE_NAME: { Ref: RateTable }
           FROM_ADDRESS: { Ref: FromAddress }
+          OWNER_EMAIL: { Ref: OwnerEmail }
           REPO: { Ref: Repo }
           ALLOWED_ORIGIN: { Ref: AllowedOrigin }
           PARAM_PREFIX: { Ref: ParamPrefix }

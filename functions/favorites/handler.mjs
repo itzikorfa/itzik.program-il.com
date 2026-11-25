@@ -1,5 +1,5 @@
 // Lambda Function URL handler. All services are injected (see index.mjs), so this file is testable.
-import { validateSuggestion, signToken, verifyToken, favoriteFile, confirmEmail } from './core.mjs';
+import { validateSuggestion, signToken, verifyToken, favoriteFile, confirmEmail, ownerEmail } from './core.mjs';
 import { openFavoritePR } from './github.mjs';
 
 const MAX_BODY = 4096;
@@ -25,7 +25,7 @@ function prBody(s) {
 }
 
 export function createHandler(deps) {
-  const { secret, allowedOrigin, repo, getGithubToken, fetchImpl, limiter, sendEmail, now, log } = deps;
+  const { secret, allowedOrigin, ownerEmail: owner, repo, getGithubToken, fetchImpl, limiter, sendEmail, now, log } = deps;
 
   async function suggest(input, ip) {
     if (typeof input?.website === 'string' && input.website.trim() !== '') {
@@ -44,7 +44,7 @@ export function createHandler(deps) {
     }
     const token = signToken(v.value, secret, now());
     try {
-      await sendEmail({ to: v.value.email, ...confirmEmail(v.value, token) });
+      await sendEmail({ to: v.value.email, ...confirmEmail(token) });
     } catch (e) {
       log({ route: 'suggest', outcome: 'email-failed', error: String(e?.name ?? 'Error') });
       return reply(502, { error: "We couldn't send the email. Please try again later." });
@@ -73,6 +73,10 @@ export function createHandler(deps) {
         body: prBody(s),
       });
       log({ route: 'confirm', outcome: r.status });
+      if (r.status === 'created' && owner) {
+        try { await sendEmail({ to: owner, ...ownerEmail(r.url) }); }
+        catch (e) { log({ route: 'confirm', outcome: 'owner-email-failed', error: String(e?.name ?? 'Error') }); }
+      }
       return r.status === 'created' ? reply(201, { status: 'created' }) : reply(200, { status: 'already' });
     } catch (e) {
       log({ route: 'confirm', outcome: 'github-failed', error: String(e?.message ?? e) });

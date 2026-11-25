@@ -95,19 +95,17 @@ export function favoriteFile(s, id, date = new Date()) {
   return { path: `src/content/favorites/${day}-${id}.yaml`, content: lines.join('\n') + '\n' };
 }
 
-export function confirmEmail(s, token) {
+/** Confirmation email. Repeats nothing the visitor typed, so the form can't be used to relay spam. */
+export function confirmEmail(token) {
   const link = `${SITE}/favorites/confirm/#${token}`;
   return {
-    subject: `Confirm your link suggestion: ${s.title}`,
+    subject: 'Confirm your link suggestion',
     text: [
       'Hi,',
       '',
-      'Someone (hopefully you) suggested this link for the favorites list on itzik.program-il.com:',
+      'Someone (hopefully you) suggested a link for the favorites list on itzik.program-il.com.',
       '',
-      `  ${s.title}`,
-      `  ${s.url}`,
-      '',
-      'To confirm, open this link and press Confirm (it works for 24 hours):',
+      'To see the suggestion and confirm it, open this link and press Confirm (it works for 24 hours):',
       '',
       `  ${link}`,
       '',
@@ -117,5 +115,13 @@ export function confirmEmail(s, token) {
       '',
       'Itzik',
     ].join('\n'),
+  };
+}
+
+/** Tells the owner a new pull request is waiting (GitHub doesn't notify you about your own PRs). */
+export function ownerEmail(prUrl) {
+  return {
+    subject: 'New favorite suggestion',
+    text: ['A visitor confirmed a favorite suggestion. Review it here:', '', `  ${prUrl}`, '', 'Edit if you like, then merge to publish or close to reject.'].join('\n'),
   };
 }

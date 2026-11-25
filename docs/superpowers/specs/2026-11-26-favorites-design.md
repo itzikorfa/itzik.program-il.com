@@ -72,6 +72,10 @@ Nothing below depends on it. It only affects wording on the page and how strict 
   `/favorites/github-token` (owner-created fine-grained PAT, this repo only: Contents RW + Pull requests RW).
 - Email: SES domain identity `program-il.com` with Easy DKIM (Route 53 records), sender `noreply@program-il.com`,
   plus DMARC `p=none`. Needs SES production access (one-time AWS request, owner approves).
+- The confirmation email repeats **nothing the visitor typed** (no title, no link), so the form can't relay
+  spam under the program-il.com name. Details are shown on the site's confirm page instead.
+- After a PR is opened the owner gets an email at `hi@program-il.com` with the PR link (GitHub does not
+  notify you about PRs made with your own token).
 - Logs: outcome only (`suggest: sent`, `rate-limited`, …), never the email. Log retention 14 days.
 - Infra as code: `infra/favorites.yaml` (CloudFormation) + `infra/deploy-favorites.sh`.
 - Cost: about $0/month at personal-site scale.

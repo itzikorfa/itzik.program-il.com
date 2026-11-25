@@ -19,7 +19,7 @@ describe('favorites CloudFormation template', () => {
   it('runs Node 22 on arm64 with a short timeout and the config the code reads', () => {
     const [fn] = ofType('AWS::Lambda::Function');
     expect(fn.Properties).toMatchObject({ Runtime: 'nodejs22.x', Architectures: ['arm64'], Handler: 'index.handler', Timeout: 10 });
-    expect(Object.keys(fn.Properties.Environment.Variables).sort()).toEqual(['ALLOWED_ORIGIN', 'FROM_ADDRESS', 'PARAM_PREFIX', 'REPO', 'TABLE_NAME']);
+    expect(Object.keys(fn.Properties.Environment.Variables).sort()).toEqual(['ALLOWED_ORIGIN', 'FROM_ADDRESS', 'OWNER_EMAIL', 'PARAM_PREFIX', 'REPO', 'TABLE_NAME']);
   });
 
   it('rate-limit table expires items and bills per request', () => {

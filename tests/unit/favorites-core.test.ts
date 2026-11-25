@@ -104,11 +104,11 @@ describe('favoriteFile', () => {
 });
 
 describe('confirmEmail', () => {
-  it('links to the confirm page with the token in the fragment', () => {
-    const m = confirmEmail({ title: 'Astro', url: good.url }, 'TOKEN.SIG');
-    expect(m.subject).toBe('Confirm your link suggestion: Astro');
+  it('links to the confirm page and repeats nothing the visitor typed (no spam relay)', () => {
+    const m = confirmEmail('TOKEN.SIG');
+    expect(m.subject).toBe('Confirm your link suggestion');
     expect(m.text).toContain('https://itzik.program-il.com/favorites/confirm/#TOKEN.SIG');
-    expect(m.text).toContain(good.url);
+    expect(m.text).not.toContain('astro');
     expect(m.text).toMatch(/24 hours/);
     expect(m.text).toMatch(/ignore this email/i);
   });

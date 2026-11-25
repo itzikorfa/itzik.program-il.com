@@ -6,7 +6,7 @@ import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { createHandler } from './handler.mjs';
 import { createRateLimiter } from './ratelimit.mjs';
 
-const { TABLE_NAME, FROM_ADDRESS, REPO, ALLOWED_ORIGIN, PARAM_PREFIX = '/favorites' } = process.env;
+const { TABLE_NAME, FROM_ADDRESS, OWNER_EMAIL, REPO, ALLOWED_ORIGIN, PARAM_PREFIX = '/favorites' } = process.env;
 const ssm = new SSMClient({});
 const ddb = new DynamoDBClient({});
 const ses = new SESv2Client({});
@@ -42,6 +42,7 @@ async function load() {
   return createHandler({
     secret,
     allowedOrigin: ALLOWED_ORIGIN,
+    ownerEmail: OWNER_EMAIL,
     repo: REPO,
     getGithubToken: async () => githubToken,
     fetchImpl: fetch,

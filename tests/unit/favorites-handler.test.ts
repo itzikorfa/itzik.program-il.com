@@ -70,6 +70,7 @@ function setup() {
   const handler = createHandler({
     secret: SECRET,
     allowedOrigin: ORIGIN,
+    ownerEmail: 'hi@program-il.com',
     repo: 'itzikorfa/itzik.program-il.com',
     getGithubToken: async () => 'gh-token',
     fetchImpl: gh.fetchImpl,
@@ -174,6 +175,20 @@ describe('POST /confirm', () => {
     expect(t.gh.calls.every((c) => c.auth === 'Bearer gh-token')).toBe(true);
   });
 
+  it('emails the owner a link to the new pull request', async () => {
+    await t.call('/confirm', { token: token() });
+    expect(t.sent).toHaveLength(1);
+    expect(t.sent[0].to).toBe('hi@program-il.com');
+    expect(t.sent[0].subject).toBe('New favorite suggestion');
+    expect(t.sent[0].text).toContain('https://github.com/x/pull/1');
+  });
+
+  it('still succeeds when the owner email fails', async () => {
+    t.failEmail();
+    const r = await t.call('/confirm', { token: token() });
+    expect(r.statusCode).toBe(201);
+  });
+
   it('confirming twice opens only one pull request', async () => {
     const tk = token();
     await t.call('/confirm', { token: tk });
@@ -181,6 +196,7 @@ describe('POST /confirm', () => {
     expect(again.statusCode).toBe(200);
     expect(json(again)).toEqual({ status: 'already' });
     expect(t.gh.pulls).toHaveLength(1);
+    expect(t.sent).toHaveLength(1); // owner notified once
   });
 
   it('finishes a half-done earlier attempt (branch exists, no PR yet)', async () => {
