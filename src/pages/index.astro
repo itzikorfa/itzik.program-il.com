@@ -6,6 +6,7 @@ import Experience from '../components/Experience.astro';
 import Contact from '../components/Contact.astro';
 import Projects from '../components/Projects.astro';
 import BlogList from '../components/BlogList.astro';
+import Reading from '../components/Reading.astro';
 import { profile } from '../data/profile';
 import { SITE_URL } from '../config/site';
 
@@ -35,6 +36,6 @@ const personLd = {
   </Section>
   <Section id="projects" cmd="ls projects/"><Projects /></Section>
   <Section id="blog" cmd="ls blog/"><BlogList /></Section>
-  <Section id="reading" cmd="cat reading.txt"><p class="comment">loading…</p></Section>
+  <Section id="reading" cmd="cat reading.txt"><Reading /></Section>
   <Section id="contact" cmd="contact"><Contact /></Section>
 </Terminal>

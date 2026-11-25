@@ -131,3 +131,5 @@ footer { padding: 16px 20px 24px; color: var(--muted); font-size: 13px; border-t
 .prose pre code { background: none; padding: 0; }
 .prose img { max-width: 100%; height: auto; border-radius: 6px; }
 .prose blockquote { margin: 0 0 1rem; padding-left: 12px; border-left: 3px solid var(--border); color: var(--muted); }
+
+.reading a, .reading .comment { overflow-wrap: anywhere; }

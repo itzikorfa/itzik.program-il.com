@@ -88,3 +88,16 @@ test('projects empty state', async ({ page }) => {
   await expect(page.locator('#projects')).not.toContainText('null');
   await expect(page.locator('#projects')).not.toContainText('undefined');
 });
+
+test('reading renders items', async ({ page }) => {
+  // e2e builds swap in tests/fixtures/reading.yaml (2 items, one with very long strings).
+  await page.goto('/');
+  const items = page.locator('#reading li');
+  await expect(items).toHaveCount(2);
+  await expect(items.first()).toContainText('2026-11-20'); // newest first
+  const link = page.locator('#reading a', { hasText: 'Short and sweet' });
+  await expect(link).toHaveAttribute('href', 'https://example.com/short');
+  await expect(link).toHaveAttribute('target', '_blank');
+  await expect(link).toHaveAttribute('rel', /noopener/);
+  await expect(page.locator('#reading')).toContainText('A short note.');
+});

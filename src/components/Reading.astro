@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import { isoDate } from '../lib/posts';
+const items = (await getCollection('reading')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+{items.length === 0 ? (
+  <p class="comment">nothing here yet</p>
+) : (
+  <ul class="list reading">
+    {items.map(({ data }) => (
+      <li>
+        <span class="meta">{isoDate(data.date)}</span>&nbsp;
+        <a href={data.url} target="_blank" rel="noopener">{data.title}</a>
+        <div class="comment">{data.note}</div>
+      </li>
+    ))}
+  </ul>
+)}
