@@ -1,0 +1,17 @@
+name: Rebuild site
+# Daily rebuild (picks up newly tagged `portfolio` repos) + a manual "Run workflow" button.
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Amplify build
+        env:
+          AMPLIFY_WEBHOOK_URL: ${{ secrets.AMPLIFY_WEBHOOK_URL }}
+        run: curl -fsS -X POST -H 'Content-Type: application/json' -d '{}' "$AMPLIFY_WEBHOOK_URL"

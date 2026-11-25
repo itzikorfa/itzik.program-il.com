@@ -1,0 +1,36 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 22 && nvm use 22
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+customHeaders:
+  - pattern: '**/*.md'
+    headers:
+      - key: Content-Type
+        value: text/markdown; charset=utf-8
+  - pattern: '**/*.txt'
+    headers:
+      - key: Content-Type
+        value: text/plain; charset=utf-8
+  - pattern: '/admin/**'
+    headers:
+      - key: X-Robots-Tag
+        value: noindex, nofollow
+  - pattern: '**/*'
+    headers:
+      - key: X-Content-Type-Options
+        value: nosniff
+      - key: Referrer-Policy
+        value: strict-origin-when-cross-origin
