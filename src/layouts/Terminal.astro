@@ -1,7 +1,8 @@
 ---
 import '../styles/terminal.css';
-import { SITE_URL, SITE_NAME, SITE_INDEXABLE } from '../config/site';
+import { SITE_URL, SITE_NAME, SITE_INDEXABLE, CONSOLE_ENABLED } from '../config/site';
 import CommandBar from '../components/CommandBar.astro';
+import Console from '../components/Console.astro';
 import { jsonLdString } from '../lib/jsonld';
 
 interface Props {
@@ -44,17 +45,12 @@ const robots = noindex || !SITE_INDEXABLE;
   </head>
   <body>
     <div class="window">
-      <div class="titlebar" aria-hidden="true">
-        <span class="dot" style="background:#ff5f56"></span>
-        <span class="dot" style="background:#ffbd2e"></span>
-        <span class="dot" style="background:#27c93f"></span>
-        <span class="title">itzik@program-il: ~</span>
-      </div>
       <CommandBar homeLinks={homeLinks} />
       <main>
         <slot />
       </main>
       <footer>© {new Date().getFullYear()} Yizhak (Itzik) Orfanian · <a href="/rss.xml">rss</a> · <a href="/llms.txt">llms.txt</a></footer>
+      {CONSOLE_ENABLED && <Console />}
     </div>
     <script>
       import '../scripts/typing.ts';

@@ -52,3 +52,6 @@ export function buildRobots(opts: { indexable: boolean; allowTraining: boolean }
   );
   return groups.join('\n\n') + `\n\nSitemap: ${SITE_URL}/sitemap-index.xml\n`;
 }
+
+// Owner switch: the typed console at the bottom of every page. Set to false and push to turn it off.
+export const CONSOLE_ENABLED = true;

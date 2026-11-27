@@ -15,8 +15,15 @@ const swaps = [
 ].filter(([fixture]) => existsSync(fixture));
 mkdirSync('src/content/favorites', { recursive: true });
 
-const backups = swaps.map(([, target]) => [target, existsSync(target) ? readFileSync(target) : null]);
+// Real favorites are set aside during the test build, so tests only ever see the fixtures.
+const realFavorites = readdirSync('src/content/favorites')
+  .filter((f) => f.endsWith('.yaml'))
+  .map((f) => `src/content/favorites/${f}`)
+  .filter((p) => !swaps.some(([, target]) => target === p));
+const backups = [...swaps.map(([, target]) => target), ...realFavorites]
+  .map((target) => [target, existsSync(target) ? readFileSync(target) : null]);
 try {
+  for (const p of realFavorites) rmSync(p);
   for (const [fixture, target] of swaps) copyFileSync(fixture, target);
   execSync('npx astro build', {
     stdio: 'inherit',
