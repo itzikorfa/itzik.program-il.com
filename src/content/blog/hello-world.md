@@ -1,8 +1,10 @@
 ---
-title: "Hello, world"
+title: Hello, world
 date: 2026-11-25
-summary: "Why I built program-il.com"
-tags: [meta]
+summary: Why I built program-il.com
+tags:
+  - meta
+draft: false
 ---
 
 Welcome to program-il.com. This is where I write about cloud security, AI in real products, and the
