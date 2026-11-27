@@ -1,9 +1,13 @@
 ---
-title: "How this site is built: AWS, GitHub, and why"
+title: 'How this site is built: AWS, GitHub, and why'
 date: 2026-11-27
-summary: "A tour of everything behind itzik.program-il.com: the static site, AWS Amplify, Route 53, a small Lambda backend for visitor suggestions, GitHub Actions, and the reasons behind each choice."
-tags: [aws, github, architecture, security]
-draft: true
+summary: 'A tour of everything behind itzik.program-il.com: the static site, AWS Amplify, Route 53, a small Lambda backend for visitor suggestions, GitHub Actions, and the reasons behind each choice.'
+tags:
+  - aws
+  - github
+  - architecture
+  - security
+draft: false
 ---
 
 This site looks like a terminal, but behind it is a small, deliberate set of AWS and GitHub services. This post walks through each piece: what it does, and **why I picked it** over the alternatives. The short version: keep the site static, keep the moving parts few, and make every part cost close to nothing.
